@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/2.8.1/vue-router.min.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div id="app">
+            <router-link to="/show1">
+                <a class="btn btn-default" role="button">button</a>
+            </router-link>
+            <transition enter-active-class="animated bounceIn">
+                <router-view></router-view>
+            </transition>
+
+        </div>
+    </div>
+    <template id="demo">
+        <div>
+            <h2>this is show1</h2>
+            <router-link to="/show1/show2">
+                <a class="btn btn-default" role="button">to show2</a>
+            </router-link>
+            <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+                <router-view></router-view>
+            </transition>
+
+        </div>
+    </template>
+    <template id="demo2">
+        <div>
+            <h3>this is show2</h3>
+            <router-link to="/show1/show2/show3">
+                <a class="btn btn-default" role="button">to show3</a>
+            </router-link>
+            <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+                <router-view></router-view>
+            </transition>
+        </div>
+    </template>
+    <template id="demo3">
+        <div>
+            <h4>this is show3</h4>
+        </div>
+    </template>
+</body>
+<script>
+    let header = {
+        template: '#demo'
+    }
+    let show2 = {
+        template: '#demo2'
+    }
+    let show3 = {
+        template: '#demo3'
+    }
+    const router = new VueRouter({
+        routes: [{
+            path: '/show1',
+            component: header,
+            children: [
+                {
+                    path: 'show2',
+                    component: show2,
+                    children: [
+                        {
+                            path: 'show3',
+                            component: show3
+                        }
+                    ]
+                }
+            ]
+        }, {
+            path: '/',
+            redirect: '/show1'
+        }]
+    })
+    let app = new Vue({
+        el: "#app",
+        data: {
+            msg: "Hello"
+        },
+        router
+    })
+</script>
+
+</html>

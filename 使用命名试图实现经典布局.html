@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/2.8.1/vue-router.min.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <router-view name="show1"></router-view>
+        <router-view name="show2"></router-view>
+        <router-view name="show3"></router-view>
+    </div>
+    <template id="show1">
+        <div>
+            <h3>this is show1</h3>
+        </div>
+    </template>
+    <template id="show2">
+        <div>
+            <h3>this is show2</h3>
+        </div>
+    </template>
+    <template id="show3">
+        <div>
+            <h3>this is show3</h3>
+        </div>
+    </template>
+</body>
+<script>
+    let show1 = {
+        template: "#show1"
+    }
+
+    let show2 = {
+        template: "#show2"
+    }
+
+    let show3 = {
+        template: "#show3"
+    }
+    const router = new VueRouter({
+        routes: [
+            // { path: '/show1', component: show1 },
+            // { path: '/show2', component: show2 },
+            // { path: '/show3', component: show3 }
+            {
+                path: '/', components: {
+                    show1,
+                    show2,
+                    show3
+                }
+            }
+        ]
+    })
+    new Vue({
+        el: "#app",
+        data: {},
+        router
+    })
+</script>
+
+</html>

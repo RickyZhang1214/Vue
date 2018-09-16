@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/2.8.1/vue-router.min.js"></script>
+    <title>Document</title>
+    <style>
+        .left {
+            margin-top: 5.3%;
+            margin-left: -7%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div>
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <a class="navbar-brand" href="#">智慧系统</a>
+                    <ul class="nav navbar-nav">
+                        <li v-for="item in navList" :class="{active:item.id==activeId}">
+                            <a href="#" @click.prevent="activeDom(item.id)">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        const router = new VueRouter({
+            routers: [
+                {
+                    path: "/",
+                    component: "#demo"
+                }
+            ]
+        })
+        let app = new Vue({
+            el: "#app",
+            data: {
+                navList: [{
+                    id: 'home',
+                    name: "主页"
+                }, {
+                    id: 'prod',
+                    name: "产品"
+                }, {
+                    id: 'contace',
+                    name: "关于我们"
+                }],
+                activeId: -1,
+                menuList: [{
+                    id: 1,
+                    name: '登陆'
+                }, {
+                    id: 2,
+                    name: '注册'
+                }]
+            },
+            methods: {
+                activeDom(event) {
+                    this.activeId = event;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
