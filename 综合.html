@@ -13,8 +13,15 @@
     <title>Document</title>
     <style>
         .left {
-            margin-top: 5.3%;
-            margin-left: -7%;
+            margin-top: 5.5%;
+            margin-left: -10%;
+            padding-top: 1%;
+        }
+        .right{
+            border: 1px solid;
+            height: 500px;
+            width: 60%
+            
         }
     </style>
 </head>
@@ -27,20 +34,75 @@
                     <a class="navbar-brand" href="#">智慧系统</a>
                     <ul class="nav navbar-nav">
                         <li v-for="item in navList" :class="{active:item.id==activeId}">
-                            <a href="#" @click.prevent="activeDom(item.id)">{{item.name}}</a>
+                            <router-link :to="item.id" tag="a" @click.prevent="activeDom(item.id)">
+                                {{item.name}}
+                            </router-link>
                         </li>
                     </ul>
                 </nav>
+                <router-view class="left"></router-view>
+                
             </div>
-
         </div>
     </div>
+
+    <!-- 主页路由 -->
+    <template id="home">
+        <div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <router-link to="/home/home-content">Home</router-link>
+            </div>
+            <router-view name="right" class="right"></router-view>
+        </div>
+    </template>
+    <!-- 主页路由内容 -->
+    <template id="home-content">
+            <div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <a>Home-content</a>
+                </div>
+            </div>
+        </template>
+    <!-- 产品路由 -->
+    <template id="prod">
+        <div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <a>prod</a>
+            </div>
+        </div>
+    </template>
+    <!-- 关于我们路由 -->
+    <template id="contace">
+        <div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <a>contace</a>
+            </div>
+        </div>
+    </template>
     <script>
+        let home = {
+            template: '#home'
+        }
+        let contace = {
+            template: '#contace'
+        }
+        let prod = {
+            template: '#prod'
+        }
         const router = new VueRouter({
-            routers: [
+            routes: [
                 {
-                    path: "/",
-                    component: "#demo"
+                    path: "/prod",
+                    component: prod
+                }, {
+                    path: "/contace",
+                    component: contace
+                }, {
+                    path: "/home",
+                    component: home
+                }, {
+                    path: '/',
+                    redirect: "/home"
                 }
             ]
         })
@@ -49,13 +111,16 @@
             data: {
                 navList: [{
                     id: 'home',
-                    name: "主页"
+                    name: "主页",
+                    url: '/home'
                 }, {
                     id: 'prod',
-                    name: "产品"
+                    name: "产品",
+                    url: '/prod'
                 }, {
                     id: 'contace',
-                    name: "关于我们"
+                    name: "关于我们",
+                    url: '/contace'
                 }],
                 activeId: -1,
                 menuList: [{
@@ -70,7 +135,8 @@
                 activeDom(event) {
                     this.activeId = event;
                 }
-            }
+            },
+            router
         })
     </script>
 </body>
