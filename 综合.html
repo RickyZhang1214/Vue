@@ -17,12 +17,6 @@
             margin-left: -10%;
             padding-top: 1%;
         }
-        .right{
-            border: 1px solid;
-            height: 500px;
-            width: 60%
-            
-        }
     </style>
 </head>
 
@@ -34,14 +28,13 @@
                     <a class="navbar-brand" href="#">智慧系统</a>
                     <ul class="nav navbar-nav">
                         <li v-for="item in navList" :class="{active:item.id==activeId}">
-                            <router-link :to="item.id" tag="a" @click.prevent="activeDom(item.id)">
+                            <router-link :to="item.url" tag="a" @click.prevent="activeDom(item.id)">
                                 {{item.name}}
                             </router-link>
                         </li>
                     </ul>
                 </nav>
                 <router-view class="left"></router-view>
-                
             </div>
         </div>
     </div>
@@ -50,19 +43,21 @@
     <template id="home">
         <div>
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <router-link to="/home/home-content">Home</router-link>
+                <router-link to="/home/home_content">Home</router-link>
             </div>
-            <router-view name="right" class="right"></router-view>
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <router-view></router-view>
+            </div>
         </div>
     </template>
     <!-- 主页路由内容 -->
-    <template id="home-content">
-            <div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <a>Home-content</a>
-                </div>
+    <template id="home_content">
+        <div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <a>Home-content</a>
             </div>
-        </template>
+        </div>
+    </template>
     <!-- 产品路由 -->
     <template id="prod">
         <div>
@@ -81,7 +76,10 @@
     </template>
     <script>
         let home = {
-            template: '#home'
+            template: '#home',
+        }
+        let home_content = {
+            template: '#home_content'
         }
         let contace = {
             template: '#contace'
@@ -90,21 +88,26 @@
             template: '#prod'
         }
         const router = new VueRouter({
-            routes: [
-                {
-                    path: "/prod",
-                    component: prod
-                }, {
-                    path: "/contace",
-                    component: contace
-                }, {
-                    path: "/home",
-                    component: home
-                }, {
-                    path: '/',
-                    redirect: "/home"
-                }
-            ]
+            routes: [{
+                path: "/prod",
+                component: prod,
+            }, {
+                path: "/contace",
+                component: contace
+            }, {
+                path: "/home",
+                component: home,
+                children: [{
+                    path: "home_content",
+                    component: home_content
+                },{
+                    path:'/',
+                    redirect:'home_content'
+                }]
+            }, {
+                path: '/',
+                redirect: "/home"
+            }]
         })
         let app = new Vue({
             el: "#app",
