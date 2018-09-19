@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id='app'>
+            <comment class="col-md-12" @parentfunc="addComment"></comment>
+            <div class="col-md-12">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="item in commentList" :key='item.id'>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{item.name}}</h3>
+                            </div>
+                            <div class="panel-body">
+                                {{item.comment}}
+                            </div>
+                            <div class="panel-footer">
+                                {{item.time|formatTime}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+    <template id='comment_input'>
+        <div>
+            <form @click.prevent=''>
+                <div class="form-group col-sm-4">
+                    <label class="sr-only" for="">label</label>
+                    <input type="text" class="form-control col-sm-2" v-model:value='name' id="" placeholder="Input name">
+                </div>
+                <div class="form-group col-sm-10">
+                    <textarea name="" id="input" class="form-control" v-model:value='comment' rows="3" required="required"></textarea>
+                </div>
+                <div class="form-group col-sm-11">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    </div>
+                    <button type="submit" class="btn btn-primary" @click="$emit('parentfunc',addComments())">Submit</button>
+                </div>
+            </form>
+        </div>
+    </template>
+</body>
+<script>
+    Vue.component('comment', {
+        template: '#comment_input',
+        data() {
+            return {
+                name: '',
+                comment: ''
+            }
+        },
+        methods: {
+            addComments() {
+                let temp = {
+                    name: this.name,
+                    comment: this.comment
+                }
+                this.name = '';
+                this.comment = '';
+                return temp;
+            }
+        }
+    })
+    Vue.filter('formatTime', function (data) {
+        let min = data.getMinutes() < 10 ? '0' + data.getMinutes() : data.getMinutes();
+        let sec = data.getSeconds() < 10 ? '0' + data.getSeconds() : data.getSeconds();
+        return data.getFullYear() + '-' + (data.getMonth() + 1) + '-' + data.getDate() + ' ' + data.getHours() +
+            ':' + min + ':' + sec;
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            commentList: [{
+                    id: Math.ceil(Math.random() * 1000),
+                    name: 'Richel',
+                    comment: 'this is Richel comment',
+                    time: new Date()
+                },
+                {
+                    id: Math.ceil(Math.random() * 1000),
+                    name: 'Daniel',
+                    comment: 'this is Daniel comment',
+                    time: new Date()
+                },
+                {
+                    id: Math.ceil(Math.random() * 1000),
+                    name: 'Lilei',
+                    comment: 'this is Lilei comment',
+                    time: new Date()
+                },
+            ]
+        },
+        methods: {
+            addComment(data) {
+                let temp = {
+                    id: Math.ceil(Math.random() * 1000),
+                    name: data.name,
+                    comment: data.comment,
+                    time: new Date()
+                }
+                this.commentList.unshift(temp);
+            }
+        }
+    })
+</script>
+
+</html>
